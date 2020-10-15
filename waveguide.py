@@ -40,9 +40,9 @@ class WaveGuide:
         kappaY = math.pi * m / b
         f_kr = (cc * kappa) / (2 * math.pi)
         ##########   H   ############
-        return ((abs(math.sin(kappaX * p[0])) ** ((1 / kappaX) ** 2)) / (abs(math.sin(kappaY * p[1])) ** ((1 / kappaY) ** 2))) * math.cos(w * t + math.pi / 2 - hh * p[2])
+        #return ((abs(math.sin(kappaX * p[0])) ** ((1 / kappaX) ** 2)) / (abs(math.sin(kappaY * p[1])) ** ((1 / kappaY) ** 2))) * math.cos(w * t + math.pi / 2 - hh * p[2])
         ##########    E   ###########
-        #return abs(math.cos(kappaY * p[1])) * abs(math.cos(kappaX * p[0])) * math.cos(w * t - hh * p[2])
+        return abs(math.cos(kappaY * p[1])) * abs(math.cos(kappaX * p[0])) * math.cos(w * t - hh * p[2])
 
     def color_fader(self, n, x=0):
         colors = ["yellow", "darkcyan", "purple"]

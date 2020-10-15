@@ -14,7 +14,7 @@ if __name__ == '__main__':
     WIDTH = 800
     HEIGHT = 600
     RES = WIDTH, HEIGHT
-    SCALE = 4
+    SCALE = 8
     NUM_RAYS_WIDTH = int(WIDTH / SCALE)  # Количество лучей в ширину
     NUM_RAYS_HEIGHT = int(HEIGHT / SCALE)  # Количество лучей в высоту
     H_WIDTH = NUM_RAYS_WIDTH // 2

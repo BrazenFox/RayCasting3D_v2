@@ -41,7 +41,22 @@ class Camera:
         s = (v[0] * m[3][0] + v[1] * m[3][1] + v[2] * m[3][2] + v[3] * m[3][3])
         return (x, y, z, s)
 
-    def matrix_rotate_X(self, ray):
+
+
+    def transfer_to_WCS(self, ray):
+        cost = -self.camera_position[2] / math.sqrt(self.camera_position[0] ** 2 + self.camera_position[2] ** 2)
+        sint = -self.camera_position[0] / math.sqrt(self.camera_position[0] ** 2 + self.camera_position[2] ** 2)
+        cosf = -self.camera_position[2] / math.sqrt(self.camera_position[1] ** 2 + self.camera_position[2] ** 2)
+        sinf = -self.camera_position[1] / math.sqrt(self.camera_position[1] ** 2 + self.camera_position[2] ** 2)
+        column1 = ( cost,          0, sint*cosf, self.camera_position[0])
+        column2 = (    0,       cosf,      sinf, self.camera_position[1])
+        column3 = (-sint, -sinf*cost, cost*cosf, self.camera_position[2])
+        column4 = (    0,          0,         0,                       1)
+        matrix = (column1, column2, column3, column4)
+        return self.multiple_vector_and_matrix3(ray, matrix)
+
+
+    '''def matrix_rotate_X(self, ray):
         cosf = -self.camera_position[2] / math.sqrt(self.camera_position[1] ** 2 + self.camera_position[2] ** 2)
         sinf = -self.camera_position[1] / math.sqrt(self.camera_position[1] ** 2 + self.camera_position[2] ** 2)
         column1 = (1, 0, 0, 0)
@@ -61,6 +76,15 @@ class Camera:
         matrix = (column1, column2, column3, column4)
         return self.multiple_vector_and_matrix3(ray, matrix)
 
+    def matrix_rotate_Z(self, ray):
+        cosO = -self.camera_position[0] / math.sqrt(self.camera_position[0] ** 2 + self.camera_position[1] ** 2)
+        sinO = -self.camera_position[1] / math.sqrt(self.camera_position[0] ** 2 + self.camera_position[1] ** 2)
+        column1 = (cosO, sinO, 0, self.camera_position[0])
+        column2 = (-sinO, cosO, 0, self.camera_position[1])
+        column3 = (0, 0, 1, 0)
+        column4 = (0, 0, 0, 1)
+        matrix = (column1, column2, column3, column4)
+        return self.multiple_vector_and_matrix3(ray, matrix)
 
 
     def matrix_shift(self, ray):
@@ -71,19 +95,7 @@ class Camera:
         matrix = (column1, column2, column3, column4)
         return self.multiple_vector_and_matrix3(ray, matrix)
 
-    def transfer_to_WCS(self, ray):
-        cost = -self.camera_position[2] / math.sqrt(self.camera_position[0] ** 2 + self.camera_position[2] ** 2)
-        sint = -self.camera_position[0] / math.sqrt(self.camera_position[0] ** 2 + self.camera_position[2] ** 2)
-        cosf = -self.camera_position[2] / math.sqrt(self.camera_position[1] ** 2 + self.camera_position[2] ** 2)
-        sinf = -self.camera_position[1] / math.sqrt(self.camera_position[1] ** 2 + self.camera_position[2] ** 2)
-        column1 = ( cost,          0, sint*cosf, self.camera_position[0])
-        column2 = (    0,       cosf,      sinf, self.camera_position[1])
-        column3 = (-sint, -sinf*cost, cost*cosf, self.camera_position[2])
-        column4 = (    0,          0,         0,                       1)
-        matrix = (column1, column2, column3, column4)
-        return self.multiple_vector_and_matrix3(ray, matrix)
-
-    '''def transfer_to_WCS1(self, ray):
+    def transfer_to_WCS1(self, ray):
         cosO = -self.camera_position[0] / math.sqrt(self.camera_position[0] ** 2 + self.camera_position[1] ** 2)
         sinO = -self.camera_position[1] / math.sqrt(self.camera_position[0] ** 2 + self.camera_position[1] ** 2)
         cost = -self.camera_position[2] / math.sqrt(self.camera_position[0] ** 2 + self.camera_position[2] ** 2)
@@ -94,16 +106,6 @@ class Camera:
         column2 = (    -sinO*cosf,       cosf*cosO,      sinf, self.camera_position[1])
         column3 = (-sint*cosO+sinO*sinf*cost, -sint*sinO-cosO*sinf*cost, cost*cosf, self.camera_position[2])
         column4 = (    0,          0,         0,                       1)
-        matrix = (column1, column2, column3, column4)
-        return self.multiple_vector_and_matrix3(ray, matrix)
-    
-    def matrix_rotate_Z(self, ray):
-        cosO = -self.camera_position[0] / math.sqrt(self.camera_position[0] ** 2 + self.camera_position[1] ** 2)
-        sinO = -self.camera_position[1] / math.sqrt(self.camera_position[0] ** 2 + self.camera_position[1] ** 2)
-        column1 = (cosO, sinO, 0, self.camera_position[0])
-        column2 = (-sinO, cosO, 0, self.camera_position[1])
-        column3 = (0, 0, 1, 0)
-        column4 = (0, 0, 0, 1)
         matrix = (column1, column2, column3, column4)
         return self.multiple_vector_and_matrix3(ray, matrix)'''
 
