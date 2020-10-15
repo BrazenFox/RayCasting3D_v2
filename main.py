@@ -29,8 +29,8 @@ if __name__ == '__main__':
     keyup_handlers = defaultdict(list)
     mouse_handlers = []
 
-    camera = Camera([0, 0, -20], WIDTH, HEIGHT, NUM_RAYS_WIDTH, NUM_RAYS_HEIGHT, H_WIDTH, H_HEIGHT)
-    waveguide = WaveGuide([0, 0, 0], [2, 2, 4])
+    camera = Camera([5, 5, -10], WIDTH, HEIGHT, NUM_RAYS_WIDTH, NUM_RAYS_HEIGHT, H_WIDTH, H_HEIGHT)
+    waveguide = WaveGuide([0, 0, 0], [1, 1, 2])
     multiple_processing = RayCasting(camera, waveguide, NUM_RAYS_WIDTH, NUM_RAYS_HEIGHT, SCALE)
 
     with Pool(processes=8) as pool:
@@ -43,17 +43,25 @@ if __name__ == '__main__':
             screen.fill(pygame.Color('darkslategray'))
             pixels = multiple_processing.multiprocessing()
 
-            min_power = min(pixels[0])
-            max_power = max(pixels[0])
+            min_power = pixels[0][0]
+            max_power = pixels[0][0]
+
+            for power,x,y in pixels:
+                if power > max_power:
+                    max_power = power
+                if power < min_power:
+                    min_power = power
+
             dispersion = max_power - min_power
 
             print("min_power: ", min_power, "max_power: ", max_power)
 
             for power, x, y in pixels:
-                color1 = 255. / dispersion * power
-                color2 = 255. / dispersion * power
-                color3 = 255 - 255. / dispersion * power
+                color1 = 255. / dispersion * (power-min_power)
+                color2 = 255. / dispersion * (power-min_power)
+                color3 = 255 - 255. / dispersion * (power-min_power)
                 color = (color1, color2, color3)
+
                 pygame.draw.rect(screen, color, (x, y, SCALE, SCALE))
             pygame.display.flip()
             clock.tick()
