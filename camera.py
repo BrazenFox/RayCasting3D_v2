@@ -19,11 +19,7 @@ class Camera:
         for x in range(self.NUM_RAYS_WIDTH):
             for y in range(self.NUM_RAYS_HEIGHT):
                 pos = self.normalize_vector3(self.subtraction_vectors3([x, -y, 0, 1], self.pos_matrix))  # матрица в координатах камеры
-                #print(pos)
-
-                #self.matrix[x][y] = self.sum_of_vectors3(self.camera_position, pos) # Матрица в СКМ пересчитанная в нормальный вид
-                self.matrix[x][y] = self.transfer_to_WCS(pos)
-                #print(self.matrix[x][y])
+                self.matrix[x][y] = self.transfer_to_WCS(pos) # Матрица в СКМ пересчитанная в нормальный вид
 
 
     def normalize_vector3(self, v):
@@ -56,7 +52,7 @@ class Camera:
     def matrix_rotate_Y(self, ray):
         cost = -self.camera_position[2] / math.sqrt(self.camera_position[0] ** 2 + self.camera_position[2] ** 2)
         sint = -self.camera_position[0] / math.sqrt(self.camera_position[0] ** 2 + self.camera_position[2] ** 2)
-        column1 = (cost, 0, sint, self.camera_position[0])
+        column1 = (cost, 0, sint, 0)
         column2 = (0, 1, 0, 0)
         column3 = (-sint, 0, cost, 0)
         column4 = (0, 0, 0, 1)

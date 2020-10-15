@@ -14,7 +14,7 @@ class WaveGuide:
 
     def field_power(self, p):
         #print("До ",p)
-        p = (p[0] + self.size[0], p[1] + self.size[1], p[2] + self.size[2]+0.1)
+        p = (p[0] + self.size[0], p[1] + self.size[1], p[2] + self.size[2]+1e-12)
         #print("После ",p)
         cc = 3e10  # скорость света в см/с
         ff = 22  # Частота в ГГц
@@ -23,8 +23,8 @@ class WaveGuide:
         lyam = cc / f
         hh = w / cc  # волновое число в волноводе
         # Параметры волновода
-        a = self.size[0]*2+constants.EPSILON*2   # размер волновода по x в см
-        b = self.size[1]*2+constants.EPSILON*2  # размер волновода по y в см
+        a = self.size[0]*2#+constants.EPSILON*2   # размер волновода по x в см
+        b = self.size[1]*2#+constants.EPSILON*2  # размер волновода по y в см
         c = lyam  # размер волновода по z в см
         # Мода
         n = 1
@@ -38,6 +38,6 @@ class WaveGuide:
         kappaY = math.pi * m / b
         f_kr = (cc * kappa) / (2 * math.pi)
         ##########   H   ############
-        return ((abs(math.sin(kappaX * p[0])) ** ((1 / kappaX) ** 2)) / (abs(math.sin(kappaY * p[1])) ** ((1 / kappaY) ** 2))) * math.cos(w * t + math.pi / 2 - hh * p[2])
+        #return ((abs(math.sin(kappaX * p[0])) ** ((1 / kappaX) ** 2)) / (abs(math.sin(kappaY * p[1])) ** ((1 / kappaY) ** 2))) * math.cos(w * t + math.pi / 2 - hh * p[2])
         ##########    E   ###########
-        #return abs(math.cos(kappaY * p[1])) * abs(math.cos(kappaX * p[0])) * math.cos(w * t - hh * p[2])
+        return abs(math.cos(kappaY * p[1])) * abs(math.cos(kappaX * p[0])) * math.cos(w * t - hh * p[2])

@@ -57,9 +57,9 @@ if __name__ == '__main__':
             print("min_power: ", min_power, "max_power: ", max_power)
 
             for power, x, y in pixels:
-                color1 = 255. / dispersion * (power-min_power)
-                color2 = 255. / dispersion * (power-min_power)
-                color3 = 255 - 255. / dispersion * (power-min_power)
+                color1 = 200. / dispersion * (power-min_power)
+                color2 = 200. / dispersion * (power-min_power)
+                color3 = 100 - 100. / dispersion * (power-min_power)
                 color = (color1, color2, color3)
 
                 pygame.draw.rect(screen, color, (x, y, SCALE, SCALE))
