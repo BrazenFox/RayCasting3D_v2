@@ -11,8 +11,8 @@ if __name__ == '__main__':
     pygame.init()
     pygame.display.set_caption('Ray Casting')
 
-    WIDTH = 1280
-    HEIGHT = 720
+    WIDTH = 800
+    HEIGHT = 600
     RES = WIDTH, HEIGHT
     SCALE = 4
     NUM_RAYS_WIDTH = int(WIDTH / SCALE)  # Количество лучей в ширину
@@ -54,14 +54,17 @@ if __name__ == '__main__':
 
             dispersion = max_power - min_power
 
-            print("min_power: ", min_power, "max_power: ", max_power)
-
+            #print("min_power: ", min_power, "max_power: ", max_power)
             for power, x, y in pixels:
-                color1 = 200. / dispersion * (power-min_power)
+                '''color1 = 255. / dispersion * (power-min_power)
                 color2 = 200. / dispersion * (power-min_power)
-                color3 = 100 - 100. / dispersion * (power-min_power)
-                color = (color1, color2, color3)
-
+                color3 = 150 - 150. / dispersion * (power-min_power)
+                color = (color1, color2, color3)'''
+                color = waveguide.color_fader(dispersion+1, power - min_power)
+                #color =(255,255,255)
                 pygame.draw.rect(screen, color, (x, y, SCALE, SCALE))
             pygame.display.flip()
             clock.tick()
+
+    pygame.quit()
+    sys.exit()
