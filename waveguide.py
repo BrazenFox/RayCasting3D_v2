@@ -14,7 +14,7 @@ class WaveGuide:
 
     def field_power(self, p):
         print("До ",p)
-        p = (p[0] + self.size[0], p[1] + self.size[1], p[2] + self.size[2])
+        p = (p[0] + self.size[0], p[1] + self.size[1], p[2] + self.size[2]+0.5)
         print("После ",p)
         cc = 3e10  # скорость света в см/с
         ff = 22  # Частота в ГГц

@@ -29,8 +29,8 @@ if __name__ == '__main__':
     keyup_handlers = defaultdict(list)
     mouse_handlers = []
 
-    camera = Camera([10, 15, -20], WIDTH, HEIGHT, NUM_RAYS_WIDTH, NUM_RAYS_HEIGHT, H_WIDTH, H_HEIGHT)
-    waveguide = WaveGuide([0, 0, 0], [4, 4, 4])
+    camera = Camera([0, 0, -20], WIDTH, HEIGHT, NUM_RAYS_WIDTH, NUM_RAYS_HEIGHT, H_WIDTH, H_HEIGHT)
+    waveguide = WaveGuide([0, 0, 0], [2, 2, 4])
     multiple_processing = RayCasting(camera, waveguide, NUM_RAYS_WIDTH, NUM_RAYS_HEIGHT, SCALE)
 
     with Pool(processes=8) as pool:
