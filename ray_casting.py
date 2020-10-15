@@ -12,7 +12,6 @@ class RayCasting:
         self.NUM_RAYS_HEIGHT = NUM_RAYS_HEIGHT
         self.SCALE = SCALE
 
-
     def multiprocessing(self):
         with Pool(processes=8) as pool:
             p1 = pool.apply_async(self.ray_casting, (0,))
@@ -32,9 +31,7 @@ class RayCasting:
             for y in range(0, self.NUM_RAYS_HEIGHT, 1):
                 depth = 0
                 for i in range(MAX_STEPS):
-                    ray = self.camera.matrix[x][y] + (
-                            self.camera.matrix[x][y] - self.camera.camera_position) / np.linalg.norm(
-                        self.camera.matrix[x][y] - self.camera.camera_position) * depth
+                    ray = self.sum_of_vectors3(self.camera.matrix[x][y], self.multiple_vector_and_number3(self.normalize_vector3(self.subtraction_vectors3(self.camera.matrix[x][y], self.camera.camera_position)), depth))
                     dist = self.waveguide.sdf_cube(ray)
                     if dist < EPSILON:
                         color = (255, 255, 255)
@@ -45,3 +42,16 @@ class RayCasting:
                         break
             # print(pixels)
         return pixels
+
+    def subtraction_vectors3(self, v1, v2):
+        return (v1[0] - v2[0], v1[1] - v2[1], v1[2] - v2[2])
+
+    def sum_of_vectors3(self, v1, v2):
+        return (v1[0] + v2[0], v1[1] + v2[1], v1[2] + v2[2])
+
+    def normalize_vector3(self, vec):
+        len_vec = 1 / math.sqrt(vec[0] ** 2 + vec[1] ** 2 + vec[2] ** 2)
+        return (vec[0] * len_vec, vec[1] * len_vec, vec[2] * len_vec)
+
+    def multiple_vector_and_number3(self, v1, n):
+        return (v1[0] * n, v1[1] * n, v1[2] * n)

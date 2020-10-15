@@ -1,9 +1,7 @@
 import math
-import numpy as np
-
 class WaveGuide:
     def __init__(self, position, size):
-        self.waveguide_position = np.array([*position])  # Позиция камеры в СКМ
+        self.waveguide_position = [*position]  # Позиция камеры в СКМ
         self.size = size
         '''self.forward = np.array([0, 0, 1, 1])
         self.up = np.array([0, 1, 0, 1])
