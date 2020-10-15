@@ -34,8 +34,8 @@ class RayCasting:
                     ray = self.sum_of_vectors3(self.camera.matrix[x][y], self.multiple_vector_and_number3(self.normalize_vector3(self.subtraction_vectors3(self.camera.matrix[x][y], self.camera.camera_position)), depth))
                     dist = self.waveguide.sdf_cube(ray)
                     if dist < EPSILON:
-                        color = (255, 255, 255)
-                        pixels.append((color, x * self.SCALE, y * self.SCALE))
+                        power = self.waveguide.field_power(ray)
+                        pixels.append((power, x * self.SCALE, y * self.SCALE))
                         break
                     depth += dist
                     if depth > MAX_DEPTH:

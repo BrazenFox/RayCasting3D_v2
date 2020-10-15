@@ -22,7 +22,7 @@ class Camera:
                 #print(pos)
 
                 #self.matrix[x][y] = self.sum_of_vectors3(self.camera_position, pos) # Матрица в СКМ пересчитанная в нормальный вид
-                self.matrix[x][y] = self.transfer_to_WCS_Y(pos)
+                self.matrix[x][y] = self.transfer_to_WCS(pos)
                 #print(self.matrix[x][y])
 
 
@@ -43,23 +43,43 @@ class Camera:
         s = (v[0] * m[3][0] + v[1] * m[3][1] + v[2] * m[3][2] + v[3] * m[3][3])
         return (x, y, z, s)
 
-    def transfer_to_WCS_X(self, ray):
+    def transfer_to_WCS_rotate_X(self, ray):
         cosf = -self.camera_position[2] / math.sqrt(self.camera_position[1] ** 2 + self.camera_position[2] ** 2)
         sinf = -self.camera_position[1] / math.sqrt(self.camera_position[1] ** 2 + self.camera_position[2] ** 2)
         column1 = (1, 0, 0, 0)
-        column2 = (0, cosf, sinf, self.camera_position[1])
-        column3 = (0, -sinf, cosf, self.camera_position[2])
+        column2 = (0, cosf, sinf, 0)
+        column3 = (0, -sinf, cosf, 0)
         column4 = (0, 0, 0, 1)
         matrix = (column1, column2, column3, column4)
         return self.multiple_vector_and_matrix3(ray, matrix)
 
-    def transfer_to_WCS_Y(self, ray):
+    def transfer_to_WCS_rotate_Y(self, ray):
         cost = -self.camera_position[2] / math.sqrt(self.camera_position[0] ** 2 + self.camera_position[2] ** 2)
         sint = -self.camera_position[0] / math.sqrt(self.camera_position[0] ** 2 + self.camera_position[2] ** 2)
         column1 = (cost, 0, sint, self.camera_position[0])
         column2 = (0, 1, 0, 0)
-        column3 = (-sint, 0, cost, self.camera_position[2])
+        column3 = (-sint, 0, cost, 0)
         column4 = (0, 0, 0, 1)
+        matrix = (column1, column2, column3, column4)
+        return self.multiple_vector_and_matrix3(ray, matrix)
+
+    def transfer_to_WCS_shift(self, ray):
+        column1 = (0, 0, 0, self.camera_position[0])
+        column2 = (0, 1, 0, self.camera_position[1])
+        column3 = (0, 0, 0, self.camera_position[2])
+        column4 = (0, 0, 0, 1)
+        matrix = (column1, column2, column3, column4)
+        return self.multiple_vector_and_matrix3(ray, matrix)
+
+    def transfer_to_WCS(self, ray):
+        cost = -self.camera_position[2] / math.sqrt(self.camera_position[0] ** 2 + self.camera_position[2] ** 2)
+        sint = -self.camera_position[0] / math.sqrt(self.camera_position[0] ** 2 + self.camera_position[2] ** 2)
+        cosf = -self.camera_position[2] / math.sqrt(self.camera_position[1] ** 2 + self.camera_position[2] ** 2)
+        sinf = -self.camera_position[1] / math.sqrt(self.camera_position[1] ** 2 + self.camera_position[2] ** 2)
+        column1 = ( cost,          0, sint*cosf, self.camera_position[0])
+        column2 = (    0,       cosf,      sinf, self.camera_position[1])
+        column3 = (-sint, -sinf*cost, cost*cosf, self.camera_position[2])
+        column4 = (    0,          0,         0,                       1)
         matrix = (column1, column2, column3, column4)
         return self.multiple_vector_and_matrix3(ray, matrix)
     # return [campos[0], (pos[1] * cosf + pos[2] * (-sinf) + pos[3]*campos[1]), (pos[1] * sinf + pos[2] * cosf + pos[3] * campos[2])]
