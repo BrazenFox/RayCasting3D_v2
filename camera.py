@@ -9,17 +9,17 @@ class Camera:
         self.NUM_RAYS_HEIGHT = NUM_RAYS_HEIGHT
         self.H_WIDTH = H_WIDTH
         self.H_HEIGHT = H_HEIGHT
-        self.camera_position = (*position, 1)  # Позиция камеры в СКМ
+        self.camera_position = (*position, 1)  # Позиция камеры в СКМ(Система Координат Мира) в однородных координатах
         self.h_fov = math.pi / 3  # Угол обзора камеры по ширине
         self.v_fov = self.h_fov * (self.HEIGHT / self.WIDTH)  # Угол обзора камеры по высоте
-        self.Z_DISTANCE = self.NUM_RAYS_HEIGHT / math.tan(self.h_fov / 2)
-        self.matrix = [[0] * self.NUM_RAYS_HEIGHT for i in range(self.NUM_RAYS_WIDTH)]
-        self.pos_matrix = (self.H_WIDTH, -self.H_HEIGHT, -self.Z_DISTANCE, 1)  # Матрица в СК камеры
+        self.Z_DISTANCE = self.NUM_RAYS_HEIGHT / math.tan(self.h_fov / 2)  #Расстояние между матрицей и камерой
+        self.matrix = [[0] * self.NUM_RAYS_HEIGHT for i in range(self.NUM_RAYS_WIDTH)]  #задание матрицы
+        self.pos_matrix = (self.H_WIDTH, -self.H_HEIGHT, -self.Z_DISTANCE, 1)  # Матрица в СКМ (Вспомогательная, никакой зачимости не имеет)
 
         for x in range(self.NUM_RAYS_WIDTH):
             for y in range(self.NUM_RAYS_HEIGHT):
                 pos = self.normalize_vector3(self.subtraction_vectors3([x, -y, 0, 1], self.pos_matrix))  # матрица в координатах камеры
-                self.matrix[x][y] = self.transfer_to_WCS(pos)
+                self.matrix[x][y] = self.transfer_to_WCS(pos) #перенос матрицы в СКМ (позиция матрицы в СК камеры не меняется)
                 #print(self.matrix[x][y])
 
 

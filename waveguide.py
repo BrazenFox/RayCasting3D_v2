@@ -10,13 +10,13 @@ class WaveGuide:
         self.up = np.array([0, 1, 0, 1])
         self.right = np.array([1, 0, 0, 1])'''
 
-    def sdf_cube(self, p):
+    def sdf_cube(self, p):  #расстояние от точки p до параллелепипеда (волновода)
         q = (abs(p[0] + self.waveguide_position[0]) - self.size[0], abs(p[1] + self.waveguide_position[1]) - self.size[1], abs(p[2] + self.waveguide_position[2]) - self.size[2])
         return max((q[0], q[1], q[2], 0)) + min(max(q[0], max(q[1], q[2])), 0)
 
     def field_power(self, p):
         #print("До ",p)
-        p = (p[0] + self.size[0], p[1] + self.size[1], p[2] + self.size[2]+4.5) #+1e-12
+        p = (p[0] + self.size[0], p[1] + self.size[1], p[2] + self.size[2]+2) #+1e-12
         #print("После ",p)
         cc = 3e10  # скорость света в см/с
         ff = 22  # Частота в ГГц

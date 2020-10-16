@@ -5,7 +5,6 @@ from constants import *
 
 class RayCasting:
     def __init__(self, camera, waveguide, NUM_RAYS_WIDTH, NUM_RAYS_HEIGHT, SCALE):
-        """Инициализация потока"""
         self.camera = camera
         self.waveguide = waveguide
         self.NUM_RAYS_WIDTH = NUM_RAYS_WIDTH
@@ -25,7 +24,6 @@ class RayCasting:
             return p1.get() + p2.get() + p3.get() + p4.get() + p5.get() + p6.get() + p7.get() + p8.get()
 
     def ray_casting(self, process):
-        """Запуск потока"""
         pixels = []
         for x in range(process, self.NUM_RAYS_WIDTH, 8):
             for y in range(0, self.NUM_RAYS_HEIGHT, 1):
